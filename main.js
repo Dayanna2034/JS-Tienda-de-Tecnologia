@@ -9,8 +9,17 @@ function getProducts() {
                 { id: 104, name: "iPaD AiR", price: 800, inStock: true },
                 { id: 105, name: "ApPle WaTcH", price: 400, inStock: false }
             ];
-            
+
             resolve(products);
         }, 2000);
     });
+}
+
+async function initInventory() {
+    try {
+        const products = await getProducts();
+        console.log(products);
+    } catch (error) {
+        console.log("Error cargando productos", error);
+    }
 }
