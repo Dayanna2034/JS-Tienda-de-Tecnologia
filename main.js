@@ -18,8 +18,19 @@ function getProducts() {
 async function initInventory() {
     try {
         const products = await getProducts();
-        console.log(products);
+        //Normalized letters and apply a 15% tax
+        const normalizedProducts = products.map(product => {
+            return {
+            ...product,
+            name:product.name.toLowerCase(),
+            price: product.price * 1.15
+        };
+    });
+        
+    console.log(products);
     } catch (error) {
         console.log("Error cargando productos", error);
     }
 }
+
+initInventory();
