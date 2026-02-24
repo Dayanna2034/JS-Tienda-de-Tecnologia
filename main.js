@@ -23,8 +23,41 @@ async function initInventory() {
             return {
             ...product,
             name:product.name.toLowerCase(),
-            price: product.price * 1.15
+            price: Math.round(product.price * 1.15)
         };
+    });
+
+    const container = document.getElementById("inventory-container");
+
+    normalizedProducts.forEach(product => {
+
+      const card = document.createElement("div");
+      card.classList.add("card");
+
+      card.innerHTML = `
+        <h3>${product.name}</h3>
+        <p>Precio con impuesto: $${product.price}</p>
+        <p>Disponible: ${product.inStock ? "Sí" : "No"}</p>
+        <button ${!product.inStock ? "disabled" : ""}>
+          ${product.inStock ? "Comprar" : "Agotado"}
+        </button>
+      `;
+
+      const button = card.querySelector("button");
+
+      button.addEventListener("click", () => {
+        product.inStock = false;
+        card.classList.add("sold");
+        button.textContent = "Comprado ✔";
+        button.disabled = true;
+
+        const availabilityText = card.querySelector("p:nth-of-type(2)");
+        availabilityText.textContent = "Disponible: No";
+
+      });
+
+      container.appendChild(card);
+
     });
         
     console.log(products);
